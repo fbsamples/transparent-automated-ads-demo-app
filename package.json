@@ -1,0 +1,47 @@
+{
+  "name": "taa-demo-app",
+  "version": "1.0.0",
+  "description": "Transparent Automated Ads Demo App",
+  "main": "server.js",
+  "scripts": {
+    "build": "webpack",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-react": "^7.7.0",
+    "@babel/runtime": "^7.7.2",
+    "axios": "^0.20.0",
+    "babel-loader": "^8.0.5",
+    "bootstrap": "^4.4.1",
+    "concurrently": "^5.0.0",
+    "css-loader": "^3.2.0",
+    "express": "^4.16.4",
+    "facebook-nodejs-business-sdk": "^6.0.2",
+    "jquery": "^1.9.1",
+    "jsx-loader": "^0.13.2",
+    "popper.js": "^1.16.1",
+    "react": "^16.8.6",
+    "react-bootstrap": "^1.0.1",
+    "react-dom": "^16.8.6",
+    "react-facebook-login": "^4.1.1",
+    "react-router-dom": "^5.1.2",
+    "sqlite3": "^4.1.0",
+    "style-loader": "^1.0.0",
+    "styled-components": "^4.4.1",
+    "webpack": "^4.41.1",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-dev-server": "^3.9.0"
+  },
+  "engines": {
+    "node": "8.x"
+  },
+  "license": "Platform License",
+  "keywords": [
+    "node",
+    "facebook"
+  ]
+}
