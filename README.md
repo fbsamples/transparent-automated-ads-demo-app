@@ -12,12 +12,14 @@ It uses Node/Express for the backend and API, and React with hooks, routing and 
 
 - your app starts at `server.js`
 - api controller lives in `api/controller.js`
-- add dependencies in `package.json`
+- configuration in `config.js`
 
 To run the app locall:
+```
 - Install Nodejs version >= 12.x
 - Go to the working directory
 - Run command 'npm install && node server.js'
+```
 
 ## License
-As with any software that integrates with the Facebook platform, your use of this software is subject to the Facebook Platform Policy [http://developers.facebook.com/policy/]. This copyright notice shall be included in all copies or substantial portions of the software.
+As with any software that integrates with the Facebook platform, your use of this software is subject to the [Facebook Platform Policy](http://developers.facebook.com/policy/). This copyright notice shall be included in all copies or substantial portions of the software.

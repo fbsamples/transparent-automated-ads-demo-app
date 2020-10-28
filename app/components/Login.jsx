@@ -27,6 +27,10 @@ const Login = function (props) {
     }, []);
 
     const referer = props.location.state.referer || '/';
+    if (AUTH_APP_ID === '') {
+      setAuth("mock");
+      return <Redirect to={referer} />;
+    }
     if (isLoggedIn) {
       return <Redirect to={referer} />;
     }
