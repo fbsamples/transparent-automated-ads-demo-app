@@ -620,9 +620,268 @@ router.get("/updatesellerbizconfig", async (req, res, next) => {
 });
 
 /**
+ * 9. Seller Campaign Reporting
+ */
+const composeCampaignReportingRequest = function (dataType, campaign) {
+  let request = `${dataType.GRAPH_API}/${campaign.campaign_group_id}/insights` +
+                `?fields=catalog_segment_value,catalog_segment_actions,spend,clicks,impressions` +
+                `&access_token=${campaign.access_token}`;
+  return request;
+}
+
+const getCampaignReportingMock = function (campaign) {
+  let result = {};
+  result.request = composeCampaignReportingRequest(mock, campaign);
+  result.response = {
+    "catalog_segment_value": [
+      {
+        "action_type": "add_to_cart",
+        "value": "795559425"
+      },
+      {
+        "action_type": "purchase",
+        "value": "158478687"
+      },
+    ],
+    "catalog_segment_actions": [
+      {
+        "action_type": "add_to_cart",
+        "value": "5520"
+      },
+      {
+        "action_type": "purchase",
+        "value": "670"
+      },
+    ],
+    "spend": "325998216",
+    "clicks": "86144",
+    "impressions": "4604147",
+    "date_start": "2020-12-06",
+    "date_stop": "2020-12-24"
+  };
+  return result;
+}
+
+const getCampaignReportingAPI = async function(campaign) {
+  let result = {};
+  result.request = composeCampaignReportingRequest(config, campaign);
+  result.response = (await axios.get(result.request)).data;
+  return result;
+}
+
+const getCampaignReporting = async function(campaignInfo, userID, accessToken) {
+  let result = getCampaignReportingMock(campaignInfo);
+  if (await hasAdminRole(userID, accessToken)) {
+    result = await getCampaignReportingAPI(campaignInfo);
+  }
+  return result;
+}
+
+router.get("/campaignreporting", async (req, res, next) => {
+  let campaignInfo = {};
+  campaignInfo.access_token = req.query.seller_access_token;
+  campaignInfo.campaign_group_id = req.query.campaign_group_id;
+
+  try {
+    let result =
+      await getCampaignReporting(
+        campaignInfo,
+        req.query.userID,
+        req.query.accessToken,
+      );
+    res.send(JSON.stringify(result)).end();
+  } catch (error) {
+    res
+      .status(500)
+      .send(error.response.data)
+      .end();
+  }
+});
+
+/**
+ * 10. Invoice Group Creation
+ */
+const composeInvoiceGroupCreationRequest = function (dataType, invoiceGroup) {
+  let request = {};
+  request.url = `${dataType.GRAPH_API}/${dataType.CREDIT_LINE_ID}/extended_credit_invoice_groups`;
+  request.params = {};
+  request.params.access_token = dataType.APP_ACCESS_TOKEN;
+  request.params.emails = invoiceGroup.emails;
+  request.params.name = invoiceGroup.name;
+  return request;
+}
+
+const createInvoiceGroupMock = function (invoiceGroup) {
+  let result = {};
+  result.request = composeInvoiceGroupCreationRequest(mock, invoiceGroup);
+  result.response = {
+    "id":"2742746285973044"
+  };
+  return result;
+}
+
+const createInvoiceGroupAPI = async function (invoiceGroup) {
+  let result = {};
+  result.request = composeInvoiceGroupCreationRequest(config, invoiceGroup);
+  result.response = (await axios.post(
+    result.request.url,
+    result.request.params)
+  ).data;
+  return result;
+}
+
+const createInvoiceGroup = async function(invoiceGroup, userID, accessToken) {
+  let result = createInvoiceGroupMock(invoiceGroup);
+  if (await hasAdminRole(userID, accessToken)) {
+    result = await createInvoiceGroupAPI(invoiceGroup);
+  }
+  return result;
+}
+
+router.get("/createinvoicegroup", async (req, res, next) => {
+  let invoiceGroup = {};
+  invoiceGroup.emails = req.query.emails;
+  invoiceGroup.name = req.query.name;
+
+  try {
+    let result =
+      await createInvoiceGroup(
+        invoiceGroup,
+        req.query.userID,
+        req.query.accessToken,
+      );
+    res.send(JSON.stringify(result)).end();
+  } catch (error) {
+    res
+      .status(500)
+      .send(error.response.data)
+      .end();
+  }
+});
+
+/**
+ * 11. Invoice Group Ads Account Checking
+ */
+const composeInvoiceGroupCheckRequest = function (dataType, adsAccountID) {
+  let request = `${dataType.GRAPH_API}/${adsAccountID}` +
+                `?fields=extended_credit_invoice_group` +
+                `&access_token=${dataType.APP_ACCESS_TOKEN}`;
+  return request;
+}
+
+const checkInvoiceGroupMock = function (invoiceGroup) {
+  let result = {};
+  result.request = composeInvoiceGroupCheckRequest(mock, invoiceGroup);
+  result.response = {
+    "extended_credit_invoice_group": {
+    "id": "2742746285973044",
+    "name": "TAA Invoice Group"
+  },
+    "id": "act_768156353980606"
+  };
+  return result;
+}
+
+const checkInvoiceGroupAPI = async function (invoiceGroup) {
+  let result = {};
+  result.request = composeInvoiceGroupCheckRequest(config, invoiceGroup);
+  result.response = (await axios.get(result.request)).data;
+  return result;
+}
+
+const checkInvoiceGroup = async function(adsAccountID, userID, accessToken) {
+  let result = checkInvoiceGroupMock(adsAccountID);
+  if (await hasAdminRole(userID, accessToken)) {
+    result = await checkInvoiceGroupAPI(adsAccountID);
+  }
+  return result;
+}
+
+router.get("/checkinvoicegroup", async (req, res, next) => {
+  try {
+    let result =
+      await checkInvoiceGroup(
+        req.query.adsAccountID,
+        req.query.userID,
+        req.query.accessToken,
+      );
+    res.send(JSON.stringify(result)).end();
+  } catch (error) {
+    res
+      .status(500)
+      .send(error.response.data)
+      .end();
+  }
+});
+
+/**
+ * 12. Invoice Ads Account Addition/Deletion
+ */
+const composeInvoiceAdsAccountRequest = function (dataType, invoiceGroup) {
+  let request = {};
+  request.url = `${dataType.GRAPH_API}/${invoiceGroup.id}/ad_accounts`;
+  request.params = {};
+  request.params.access_token = dataType.APP_ACCESS_TOKEN;
+  request.params.ad_account_id = invoiceGroup.ad_account_id;
+  return request;
+}
+
+const handleInvoiceGroupAdsAccountMock = function (invoiceGroup) {
+  let result = {};
+  result.request = composeInvoiceAdsAccountRequest(mock, invoiceGroup);
+  result.response = {
+    "success":true
+  };
+  return result;
+}
+
+const handleInvoiceGroupAdsAccountAPI = async function (invoiceGroup) {
+  let result = {};
+  result.request = composeInvoiceAdsAccountRequest(config, invoiceGroup);
+  let axiosConfig = {
+    method: `${invoiceGroup.requestType}`,
+    url: `${result.request.url}`,
+    data: {
+      ad_account_id: `${result.request.params.ad_account_id}`,
+      access_token: `${result.request.params.access_token}`,
+    },
+  };
+  result.response = (await axios(axiosConfig)).data;
+  return result;
+}
+
+const handleInvoiceGroupAdsAccount = async function (invoiceGroup, userID, accessToken) {
+  let result = handleInvoiceGroupAdsAccountMock(invoiceGroup);
+  if (await hasAdminRole(userID, accessToken)) {
+    result = await handleInvoiceGroupAdsAccountAPI(invoiceGroup);
+  }
+  return result;
+}
+
+router.get("/handleinvoiceadsaccount", async (req, res, next) => {
+  let invoiceGroup = {};
+  invoiceGroup.requestType = req.query.request_type;
+  invoiceGroup.id = req.query.id;
+  invoiceGroup.ad_account_id = req.query.ad_account_id;
+  try {
+    let result =
+      await handleInvoiceGroupAdsAccount(
+        invoiceGroup,
+        req.query.userID,
+        req.query.accessToken,
+      );
+    res.send(JSON.stringify(result)).end();
+  } catch (error) {
+    res
+      .status(500)
+      .send(error.response.data)
+      .end();
+  }
+});
+
+/**
  * Seller Management
  */
-
 const getSellers = function() {
   let sellers = {
     sellers: [

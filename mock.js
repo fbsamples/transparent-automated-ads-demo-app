@@ -17,8 +17,8 @@ const INELIGIBLE_SELLER_CODE = "seller_fails_eligibility_check";
 const INELIGIBLE_SELLER_DESC = "Lack of purchase. This seller only generated 16.00% of signals needed.";
 const NOT_FOUND_SELLER_CODE = "seller_vendor_id_not_found";
 const NOT_FOUND_SELLER_DESC = "Cannot find seller vendor ID.";
-const ELIGIBLE_SELLER_IDS = ["136729", "519453"];
-const INELIGIBLE_SELLER_IDS = ["132497", "119850"];
+const ELIGIBLE_SELLER_IDS = ["cpas_demo_vendor_500", "cpas_demo_vendor_501"];
+const INELIGIBLE_SELLER_IDS = ["cpas_demo_vendor_555", "cpas_demo_vendor_567"];
 
 module.exports = {
   NAME,

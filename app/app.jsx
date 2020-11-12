@@ -13,10 +13,11 @@ import Dashboard from "./components/Dashboard";
 import SellerOnboarding from "./components/SellerOnboarding";
 import SellerManagement from "./components/SellerManagement";
 import SellerEligibility from "./components/SellerEligibility";
-import AdsReporting from "./components/AdsReporting";
 import SellerBusiness from "./components/SellerBusiness";
 import SellerCampaignLaunch from "./components/SellerCampaignLaunch";
 import SellerCampaignUpdate from "./components/SellerCampaignUpdate";
+import SellerReporting from "./components/SellerReporting";
+import SellerInvoicing from "./components/SellerInvoicing";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
 import PrivateRoute from './PrivateRoute';
@@ -38,13 +39,14 @@ function App(props) {
           <Switch>
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
-            <PrivateRoute path="/adsreporting" component={AdsReporting} />
             <PrivateRoute path="/sellereligibility" component={SellerEligibility} />
             <PrivateRoute path="/sellermanagement" component={SellerManagement} />
             <PrivateRoute path="/selleronboarding" component={SellerOnboarding} />
             <PrivateRoute path="/sellerbusiness" component={SellerBusiness} />
             <PrivateRoute path="/sellercampaignlaunch" component={SellerCampaignLaunch} />
             <PrivateRoute path="/sellercampaignupdate" component={SellerCampaignUpdate} />
+            <PrivateRoute path="/sellerreporting" component={SellerReporting} />
+            <PrivateRoute path="/sellerinvoicing" component={SellerInvoicing} />
             <PrivateRoute exact path="/" component={Dashboard} />
           </Switch>
         </div>

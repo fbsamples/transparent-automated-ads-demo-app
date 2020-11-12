@@ -1,20 +1,34 @@
 # Transparent Automated Ads Demo App
 
-This app is a demo app to help you test, debug and get started with Transparent Automated Ads API
+This app is a demo app to help you test, debug and get started with Transparent Automated Ads API. It uses Node/Express for the backend and API, and React with hooks, routing and styled component support on the frontend.
 
-It uses Node/Express for the backend and API, and React with hooks, routing and styled component support on the frontend.
+## Supported API List
+- Seller Eligibility Check
+- Seller Business Creation
+- Seller Business ID Lookup
+- Seller Business Retrieval
+- Seller Business Config Update
+- Access Token Generation
+- Seller Campaign Creation
+- Seller Campaign Update
+- Campaign Reporting
+- Invoice Group Management
 
-## On the front-end,
+## On the front-end
 
 - edit files in `app` folder, it contains all the React stuff
 
-## On the back-end,
+## On the back-end
 
 - your app starts at `server.js`
 - api controller lives in `api/controller.js`
 - configuration in `config.js`
 
-To run the app locall:
+## Configuartion
+- If the authentication is not configured in the field AUTH_APP_ID of `config.js`, the mock data in `mock.js` will be used for all of API calls.
+- Otherwise, the logged in user is required to have ADMIN and FINACIAL permission to make API calls.
+
+## To run the app locall:
 ```
 - Install Nodejs version >= 12.x
 - Go to the working directory

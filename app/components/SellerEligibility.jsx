@@ -11,7 +11,7 @@ import { useAuth } from "../context/auth";
 
 const SellerEligibility = function() {
   const { auth } = useAuth();
-  const [sellerID, setSellerID] = useState('136729');
+  const [sellerID, setSellerID] = useState('cpas_demo_vendor_500');
   const [seller, setSeller] = useState();
   const [marketplace, setMarketplace] = useState([]);
   const [sellerCriteria, setSellerCriteria] = useState('');
