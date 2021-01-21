@@ -56,6 +56,13 @@ const SellerInvoicing = function() {
       <Form>
         <Form.Row>
           <Form.Group as={Col}>
+            <Form.Label>Note: Invoice groups cannot be created, edited or deleted 2 business days before
+                        and 4 businness days after the end of the month.
+            </Form.Label>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
             <Form.Label>Name</Form.Label>
             <Form.Control
               value={name}
@@ -132,6 +139,8 @@ const SellerInvoicing = function() {
             </Button>
           </Form.Group>
         </Form.Row>
+
+
 
         <Form.Row>
           <Form.Group as={Col}>

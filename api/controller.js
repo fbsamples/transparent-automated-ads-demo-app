@@ -19,7 +19,6 @@ const hasAdminRole = async function(userID, accessToken) {
     businesses.forEach(function(business) {
       if (business.id === config.BUSSINESS_ID
           && business.permitted_roles.includes("ADMIN")
-          && business.permitted_roles.includes("FINANCE_EDITOR")
           ) {
             authorized = true;
           }
@@ -624,7 +623,8 @@ router.get("/updatesellerbizconfig", async (req, res, next) => {
  */
 const composeCampaignReportingRequest = function (dataType, campaign) {
   let request = `${dataType.GRAPH_API}/${campaign.campaign_group_id}/insights` +
-                `?fields=catalog_segment_value,catalog_segment_actions,spend,clicks,impressions` +
+                `?fields=catalog_segment_actions,catalog_segment_value,catalog_segment_value_omni_purchase_roas,spend,clicks,impressions` +
+                `&action_attribution_windows=["1d_view","28d_click"]` +
                 `&access_token=${campaign.access_token}`;
   return request;
 }
@@ -633,31 +633,42 @@ const getCampaignReportingMock = function (campaign) {
   let result = {};
   result.request = composeCampaignReportingRequest(mock, campaign);
   result.response = {
-    "catalog_segment_value": [
-      {
-        "action_type": "add_to_cart",
-        "value": "795559425"
-      },
-      {
-        "action_type": "purchase",
-        "value": "158478687"
-      },
-    ],
     "catalog_segment_actions": [
       {
-        "action_type": "add_to_cart",
-        "value": "5520"
+        "action_type": "omni_add_to_cart",
+        "value": "73",
+        "28d_click": "73"
       },
       {
-        "action_type": "purchase",
-        "value": "670"
+        "action_type": "omni_purchase",
+        "value": "46",
+        "28d_click": "46"
       },
     ],
-    "spend": "325998216",
-    "clicks": "86144",
-    "impressions": "4604147",
-    "date_start": "2020-12-06",
-    "date_stop": "2020-12-24"
+    "catalog_segment_value": [
+      {
+        "action_type": "omni_add_to_cart",
+        "value": "1210.23",
+        "28d_click": "1210.23"
+      },
+      {
+        "action_type": "omni_purchase",
+        "value": "706.7",
+        "28d_click": "706.7"
+      }
+    ],
+    "catalog_segment_value_omni_purchase_roas": [
+      {
+        "action_type": "omni_purchase",
+        "value": "3.383606",
+        "28d_click": "3.383606"
+      }
+    ],
+    "spend": "208.86",
+    "impressions": "57155",
+    "clicks": "3640",
+    "date_start": "2020-12-21",
+    "date_stop": "2021-01-19"
   };
   return result;
 }

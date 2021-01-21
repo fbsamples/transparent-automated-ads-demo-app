@@ -1,6 +1,6 @@
 {
   "name": "taa-demo-app",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Transparent Automated Ads Demo App",
   "main": "server.js",
   "scripts": {
@@ -13,7 +13,7 @@
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-react": "^7.7.0",
     "@babel/runtime": "^7.7.2",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "babel-loader": "^8.0.5",
     "bootstrap": "^4.4.1",
     "concurrently": "^5.0.0",

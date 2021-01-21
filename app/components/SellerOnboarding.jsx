@@ -136,6 +136,11 @@ const SellerOnboarding = function() {
               value={timezoneID}
               onChange={e => setTimezoneID(e.target.value)}
             />
+            <Form.Label>
+              <a target="_blank" href="https://developers.facebook.com/docs/marketing-api/reference/ad-account/timezone-ids/">
+                List of all the timezone IDs
+              </a>
+            </Form.Label>
           </Form.Group>
         </Form.Row>
 

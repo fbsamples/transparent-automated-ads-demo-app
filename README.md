@@ -26,7 +26,7 @@ This app is a demo app to help you test, debug and get started with Transparent 
 
 ## Configuartion
 - If the authentication is not configured in the field AUTH_APP_ID of `config.js`, the mock data in `mock.js` will be used for all of API calls.
-- Otherwise, the logged in user is required to have ADMIN and FINACIAL permission to make API calls.
+- Otherwise, the logged in user is required to have ADMIN permission to make API calls.
 
 ## To run the app locall:
 ```

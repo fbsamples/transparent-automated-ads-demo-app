@@ -49,6 +49,15 @@ const SellerReporting = function() {
         </Form.Row>
         <Form.Row>
           <Form.Group as={Col}>
+            <Form.Label>
+              <a href="https://developers.facebook.com/docs/marketing-api/insights/parameters" target="_blank">
+                More params and fields
+              </a>
+            </Form.Label>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
             <Button
               variant="primary"
               onClick={() => {
