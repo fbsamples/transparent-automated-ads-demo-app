@@ -31,8 +31,8 @@ const SellerCampaignLaunch = function() {
                 `use_marketplace_template=${marketplaceTemplate}&` +
                 `ads_account=${adsAccount}&` +
                 `seller_access_token=${accessToken}&` +
-                `userID=${auth.userID}&` +
-                `accessToken=${auth.accessToken}`;
+                `user_id=${auth.userID}&` +
+                `access_token=${auth.accessToken}`;
     let campaign = await fetch(request);
     campaign = await campaign.json();
     setCampaign(campaign);

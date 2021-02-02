@@ -19,12 +19,25 @@ const SellerReporting = function() {
     let request = `/api/campaignreporting?` +
                 `campaign_group_id=${campaignID}&` +
                 `seller_access_token=${accessToken}&` +
-                `userID=${auth.userID}&` +
-                `accessToken=${auth.accessToken}`;
+                `user_id=${auth.userID}&` +
+                `access_token=${auth.accessToken}`;
+    handleRequest(request);
+  }, [campaignID, accessToken]);
+
+  const onGetCampaignInfo = useCallback(async () => {
+    let request = `/api/campaigninfo?` +
+                `campaign_id=${campaignID}&` +
+                `seller_access_token=${accessToken}&` +
+                `user_id=${auth.userID}&` +
+                `access_token=${auth.accessToken}`;
+    handleRequest(request);
+  }, [campaignID, accessToken]);
+
+  const handleRequest = async function(request) {
     let campaign = await fetch(request);
     campaign = await campaign.json();
     setCampaign(campaign);
-  }, [campaignID, accessToken]);
+  }
 
   return (
     <div>
@@ -65,6 +78,16 @@ const SellerReporting = function() {
               }}
             >
               Campaign Reporting
+            </Button>
+          </Form.Group>
+          <Form.Group as={Col}>
+            <Button
+              variant="info"
+              onClick={() => {
+                onGetCampaignInfo();
+              }}
+            >
+              Campaign Info
             </Button>
           </Form.Group>
         </Form.Row>

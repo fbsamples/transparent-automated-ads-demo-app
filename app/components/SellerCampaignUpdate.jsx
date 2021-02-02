@@ -25,8 +25,8 @@ const SellerCampaignUpdate = function() {
                 `campaign_group_id=${campaignID}&` +
                 `ads_account=${adsAccount}&` +
                 `seller_access_token=${accessToken}&` +
-                `userID=${auth.userID}&` +
-                `accessToken=${auth.accessToken}`;
+                `user_id=${auth.userID}&` +
+                `access_token=${auth.accessToken}`;
     let campaign = await fetch(request);
     campaign = await campaign.json();
     setCampaign(campaign);

@@ -35,8 +35,8 @@ const SellerOnboarding = function() {
       `ad_account_currency=${currency}&` +
       `seller_targeting_countries=${targetingCountries}&` +
       `timezone_id=${timezoneID}&` +
-      `userID=${auth.userID}&` +
-      `accessToken=${auth.accessToken}`;
+      `user_id=${auth.userID}&` +
+      `access_token=${auth.accessToken}`;
     let sellerBusiness = await fetch(request);
     sellerBusiness = await sellerBusiness.json();
     setSellerBusiness(sellerBusiness);
@@ -45,9 +45,9 @@ const SellerOnboarding = function() {
 
   const onLookupSeller = useCallback(async () => {
     let request = `/api/getsellerbizid?` +
-      `sellerID=${externalID}&` +
-      `userID=${auth.userID}&` +
-      `accessToken=${auth.accessToken}`;
+      `seller_id=${externalID}&` +
+      `user_id=${auth.userID}&` +
+      `access_token=${auth.accessToken}`;
     let sellerBusiness = await fetch(request);
     sellerBusiness = await sellerBusiness.json();
     setSellerBusiness(sellerBusiness);

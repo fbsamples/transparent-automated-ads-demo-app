@@ -9,7 +9,7 @@ const CATALOG_ID = '';
 const AUTH_APP_ID = '';
 const APP_ID = '';
 const APP_ACCESS_TOKEN = '';
-const GRAPH_API = 'https://graph.facebook.com/v8.0';
+const GRAPH_API = 'https://graph.facebook.com/v9.0';
 
 const SELLER_CRITERIA = { users: 1000, transactions: 100, basketSize: 2 };
 

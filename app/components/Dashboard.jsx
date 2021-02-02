@@ -21,7 +21,7 @@ const Dashboard = function () {
     async function fetchData() {
       try {
         let marketplace =
-        await fetch(`/api/getmarketplace?userID=${auth.userID}&accessToken=${auth.accessToken}`);
+        await fetch(`/api/getmarketplace?user_id=${auth.userID}&access_token=${auth.accessToken}`);
         marketplace = await marketplace.json();
         setMarketplace(marketplace);
       }

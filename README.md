@@ -4,14 +4,11 @@ This app is a demo app to help you test, debug and get started with Transparent 
 
 ## Supported API List
 - Seller Eligibility Check
-- Seller Business Creation
-- Seller Business ID Lookup
+- Seller Business Onboarding
 - Seller Business Retrieval
 - Seller Business Config Update
-- Access Token Generation
-- Seller Campaign Creation
-- Seller Campaign Update
-- Campaign Reporting
+- Seller Campaign Creation and Update
+- Campaign Info and Reporting
 - Invoice Group Management
 
 ## On the front-end

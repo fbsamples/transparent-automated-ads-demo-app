@@ -21,8 +21,8 @@ const SellerInvoicing = function() {
     let request = `/api/createinvoicegroup?` +
                 `emails=${emails}&` +
                 `name=${name}&` +
-                `userID=${auth.userID}&` +
-                `accessToken=${auth.accessToken}`;
+                `user_id=${auth.userID}&` +
+                `access_token=${auth.accessToken}`;
     handleRequest(request);
   }, [emails, name]);
 
@@ -31,16 +31,16 @@ const SellerInvoicing = function() {
                 `request_type=${requestType}&` +
                 `id=${invoiceGroupID}&` +
                 `ad_account_id=${adsAccountID}&` +
-                `userID=${auth.userID}&` +
-                `accessToken=${auth.accessToken}`;
+                `user_id=${auth.userID}&` +
+                `access_token=${auth.accessToken}`;
     handleRequest(request);
   }, [invoiceGroupID, adsAccountID]);
 
   const onCheckInvoiceGroup = useCallback(async () => {
     let request = `/api/checkinvoicegroup?` +
-                  `adsAccountID=${adsAccountID}&` +
-                  `userID=${auth.userID}&` +
-                  `accessToken=${auth.accessToken}`;
+                  `ad_account_id=${adsAccountID}&` +
+                  `user_id=${auth.userID}&` +
+                  `access_token=${auth.accessToken}`;
     handleRequest(request);
   },[adsAccountID]);
 

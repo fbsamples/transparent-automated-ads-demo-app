@@ -33,7 +33,7 @@ const SellerEligibility = function() {
 
   const onCheckSeller = useCallback(async () => {
     let seller =
-      await fetch(`/api/checkseller?sellerID=${sellerID}&userID=${auth.userID}&accessToken=${auth.accessToken}`);
+      await fetch(`/api/checkseller?seller_id=${sellerID}&user_id=${auth.userID}&access_token=${auth.accessToken}`);
     seller = await seller.json();
     setSeller(seller);
   }, [sellerID]);

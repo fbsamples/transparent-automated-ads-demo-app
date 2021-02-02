@@ -11,45 +11,56 @@ import { useAuth } from "../context/auth";
 
 const SellerBusiness = function() {
   const { auth } = useAuth();
-  const [businessID, setBusinessID] = useState('701458537122686');
+  const [businessID, setBusinessID] = useState('257744445707305');
   const [sellerBusiness, setSellerBusiness] = useState();
-  const [adsAccountID, setAdsAccountID] =  useState('959104837916969');
+  const [adsAccountID, setAdsAccountID] =  useState('319769242719821');
   const [websiteURL, setWebsiteURL] = useState('https://marketplace.com/stuffs');
   const [emailAddr, setEmailAddr] = useState('seller@marketplace.com');
+  const [allocConfigID, setAllocConfigID] = useState('423224102259163');
+  const [creditLimit, setCreditLimit] = useState('200');
 
   const onGetSellerBusinessInfo = useCallback(async () => {
     let request = `/api/getsellerbizinfo?` +
-      `businessID=${businessID}&` +
-      `userID=${auth.userID}&` +
-      `accessToken=${auth.accessToken}`;
-    let sellerBusiness = await fetch(request);
-    sellerBusiness = await sellerBusiness.json();
-    setSellerBusiness(sellerBusiness);
+      `business_id=${businessID}&` +
+      `user_id=${auth.userID}&` +
+      `access_token=${auth.accessToken}`;
+    handleRequest(request);
   }, [businessID]);
 
   const onGenerateAccessToken = useCallback(async () => {
     let request = `/api/genaccesstoken?` +
-      `businessID=${businessID}&` +
-      `userID=${auth.userID}&` +
-      `accessToken=${auth.accessToken}`;
-    let sellerBusiness = await fetch(request);
-    sellerBusiness = await sellerBusiness.json();
-    setSellerBusiness(sellerBusiness);
+      `business_id=${businessID}&` +
+      `user_id=${auth.userID}&` +
+      `access_token=${auth.accessToken}`;
+    handleRequest(request);
   }, [businessID]);
 
   const onUpdateSellerBusinessConfig = useCallback(async () => {
     let request = `/api/updatesellerbizconfig?` +
-      `businessID=${businessID}&` +
+      `business_id=${businessID}&` +
       `active_ad_account_id=${adsAccountID}&` +
       `seller_email_address=${emailAddr}&` +
       `seller_external_website_url=${encodeURIComponent(websiteURL)}&` +
-      `userID=${auth.userID}&` +
-      `accessToken=${auth.accessToken}`;
-    console.log(request);
+      `user_id=${auth.userID}&` +
+      `access_token=${auth.accessToken}`;
+    handleRequest(request);
+  },[businessID, adsAccountID, emailAddr, websiteURL]);
+
+  const onUpdateSellerCreditLimit = useCallback(async () => {
+    let request = `/api/updatesellercreditlimit?` +
+        `alloc_config_id=${allocConfigID}&` +
+        `credit_limit=${creditLimit}&` +
+        `user_id=${auth.userID}&` +
+        `access_token=${auth.accessToken}`;
+    ;
+    handleRequest(request);
+  },[allocConfigID, creditLimit]);
+
+  const handleRequest = async function (request) {
     let sellerBusiness = await fetch(request);
     sellerBusiness = await sellerBusiness.json();
     setSellerBusiness(sellerBusiness);
-  },[businessID, adsAccountID, emailAddr, websiteURL]);
+  }
 
   return (
     <div>
@@ -61,29 +72,6 @@ const SellerBusiness = function() {
               <Form.Control
                 value={businessID}
                 onChange={e => setBusinessID(e.target.value)}
-              />
-          </Form.Group>
-          <Form.Group as={Col}>
-              <Form.Label>Active Ads Account ID</Form.Label>
-              <Form.Control
-                value={adsAccountID}
-                onChange={e => setAdsAccountID(e.target.value)}
-              />
-          </Form.Group>
-        </Form.Row>
-        <Form.Row>
-          <Form.Group as={Col}>
-              <Form.Label>Seller External Website URL</Form.Label>
-              <Form.Control
-                value={websiteURL}
-                onChange={e => setWebsiteURL(e.target.value)}
-              />
-          </Form.Group>
-          <Form.Group as={Col}>
-              <Form.Label>Seller Email Address</Form.Label>
-              <Form.Control
-                value={emailAddr}
-                onChange={e => setEmailAddr(e.target.value)}
               />
           </Form.Group>
         </Form.Row>
@@ -111,6 +99,29 @@ const SellerBusiness = function() {
         </Form.Row>
         <Form.Row>
           <Form.Group as={Col}>
+                <Form.Label>Active Ads Account ID</Form.Label>
+                <Form.Control
+                  value={adsAccountID}
+                  onChange={e => setAdsAccountID(e.target.value)}
+                />
+            </Form.Group>
+          <Form.Group as={Col}>
+              <Form.Label>Seller External Website URL</Form.Label>
+              <Form.Control
+                value={websiteURL}
+                onChange={e => setWebsiteURL(e.target.value)}
+              />
+          </Form.Group>
+          <Form.Group as={Col}>
+              <Form.Label>Seller Email Address</Form.Label>
+              <Form.Control
+                value={emailAddr}
+                onChange={e => setEmailAddr(e.target.value)}
+              />
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
             <Button
               variant="primary"
               onClick={() => {
@@ -118,6 +129,34 @@ const SellerBusiness = function() {
               }}
             >
               Update Seller Business Config
+            </Button>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
+              <Form.Label>Seller Allocation Config ID</Form.Label>
+              <Form.Control
+                value={allocConfigID}
+                onChange={e => setAllocConfigID(e.target.value)}
+              />
+          </Form.Group>
+          <Form.Group as={Col}>
+              <Form.Label>Seller Credit Limit</Form.Label>
+              <Form.Control
+                value={creditLimit}
+                onChange={e => setCreditLimit(e.target.value)}
+              />
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
+            <Button
+              variant="warning"
+              onClick={() => {
+                onUpdateSellerCreditLimit();
+              }}
+            >
+              Update Seller Credit Limit
             </Button>
           </Form.Group>
         </Form.Row>

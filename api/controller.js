@@ -4,7 +4,6 @@
 
 const axios = require("axios");
 const config = require("../config");
-const https = require("https");
 const mock = require("../mock");
 const router = require("express").Router();
 
@@ -54,8 +53,8 @@ router.get("/getmarketplace", async (req, res, next) => {
   try {
     let marketplace =
       await getMarketplaceInfo(
-        req.query.userID,
-        req.query.accessToken,
+        req.query.user_id,
+        req.query.access_token,
       );
     res.send(JSON.stringify(marketplace)).end();
   } catch (error) {
@@ -121,9 +120,9 @@ router.get("/checkseller", async (req, res, next) => {
   try {
     let result =
       await checkSellerEligibility(
-        req.query.sellerID,
-        req.query.userID,
-        req.query.accessToken,
+        req.query.seller_id,
+        req.query.user_id,
+        req.query.access_token,
       );
     res.send(JSON.stringify(result)).end();
   } catch (error) {
@@ -202,8 +201,8 @@ router.get("/selleronboarding", async (req, res, next) => {
     let result =
       await createSellerBusiness(
         sellerInfo,
-        req.query.userID,
-        req.query.accessToken,
+        req.query.user_id,
+        req.query.access_token,
       );
     res.send(JSON.stringify(result)).end();
   } catch (error) {
@@ -230,7 +229,7 @@ const getSellerBusinessMock = function (sellerID) {
   result.request = composeSellerBusinessLookupRequest(mock, sellerID);
   result.response = {
       "id": "191238152396383",
-      "name": "AAMS Test Marketplace"
+      "name": "TAA Seller"
   };
   return result;
 }
@@ -254,9 +253,9 @@ router.get("/getsellerbizid", async (req, res, next) => {
   try {
     let result =
       await getSellerBusinessID(
-        req.query.sellerID,
-        req.query.userID,
-        req.query.accessToken,
+        req.query.seller_id,
+        req.query.user_id,
+        req.query.access_token,
       );
     res.send(JSON.stringify(result)).end();
   } catch (error) {
@@ -281,36 +280,52 @@ const getSellerBusinessInfoMock = function (businessID) {
   let result = {};
   result.request = composeSellerBusinessInfoRequest(mock, businessID);
   result.response = {
-    "collaborative_ads_aams_seller_business_info": {
       "seller_business_aams_status": "ready",
       "seller_business_info": {
-        "seller_external_website_url": "https://wwww.marketplace.com/phones"
+        "seller_email_address": "seller@marketplace.com",
+        "seller_external_website_url": "https://marketplace.com/stuffs"
       },
       "ad_account": {
-        "id": "act_959104837916969",
+        "id": "act_319769242719821",
         "currency": "USD"
       },
       "page": {
-        "id": "100530048492902"
+        "id": "101356215294589"
       },
       "extended_credit": {
-        "owning_credential": {
-          "id": "2846188452157983"
+        "receiving_credit_allocation_config": {
+          "id": "423224102259163"
         },
-        "currency_amount": {
-          "amount": "200.00",
-          "amount_in_hundredths": "20000",
+        "max_balance": {
+          "amount": "250.00",
+          "amount_in_hundredths": "25000",
           "currency": "USD",
-          "offsetted_amount": "20000"
+          "offsetted_amount": "25000"
         },
-        "id": "3126335764159897"
+        "id": "3710622242385039"
       },
       "active_seller_campaign": {
         "status": "ACTIVE",
-        "id": "23845579208870407"
-      }
-    },
-    "id": "701458537122686"
+        "id": "23846663933220507"
+      },
+      "template": [
+        {
+          "budget_percentage": 0.5,
+          "campaign_template_id": "1890545134419293",
+          "adgroup_template_ids": [
+            "750988515486255"
+          ],
+          "targeting_type": "retargeting"
+        },
+        {
+          "budget_percentage": 0.5,
+          "campaign_template_id": "271586340938767",
+          "adgroup_template_ids": [
+            "750988515486255"
+          ],
+          "targeting_type": "prospecting"
+        }
+      ]
   };
   return result;
 }
@@ -334,9 +349,9 @@ router.get("/getsellerbizinfo", async (req, res, next) => {
   try {
     let result =
       await getSellerBusinessInfo(
-        req.query.businessID,
-        req.query.userID,
-        req.query.accessToken,
+        req.query.business_id,
+        req.query.user_id,
+        req.query.access_token,
       );
     res.send(JSON.stringify(result)).end();
   } catch (error) {
@@ -392,9 +407,9 @@ router.get("/genaccesstoken", async (req, res, next) => {
   try {
     let result =
       await genSellerAccessToken(
-        req.query.businessID,
-        req.query.userID,
-        req.query.accessToken,
+        req.query.business_id,
+        req.query.user_id,
+        req.query.access_token,
       );
     res.send(JSON.stringify(result)).end();
   } catch (error) {
@@ -466,8 +481,8 @@ router.get("/launchcampaign", async (req, res, next) => {
     let result =
       await launchSellerCampaign(
         campaignInfo,
-        req.query.userID,
-        req.query.accessToken,
+        req.query.user_id,
+        req.query.access_token,
       );
     res.send(JSON.stringify(result)).end();
   } catch (error) {
@@ -533,8 +548,8 @@ router.get("/updatecampaign", async (req, res, next) => {
     let result =
       await updateSellerCampaign(
         campaignInfo,
-        req.query.userID,
-        req.query.accessToken,
+        req.query.user_id,
+        req.query.access_token,
       );
     res.send(JSON.stringify(result)).end();
   } catch (error) {
@@ -550,7 +565,7 @@ router.get("/updatecampaign", async (req, res, next) => {
  */
 const composeSellerBusinessConfigRequest = function (dataType, sellerConfig) {
   let request = {};
-  request.url = `${dataType.GRAPH_API}/${sellerConfig.businessID}/aams_seller_business_setup`;
+  request.url = `${dataType.GRAPH_API}/${sellerConfig.business_id}/aams_seller_business_setup`;
   request.params = {};
   request.params.access_token = dataType.APP_ACCESS_TOKEN;
   request.params.seller_external_website_url = sellerConfig.seller_external_website_url;
@@ -597,7 +612,7 @@ const updateSellerBusinessConfig = async function(sellerConfig, userID, accessTo
 
 router.get("/updatesellerbizconfig", async (req, res, next) => {
   let sellerConfig = {};
-  sellerConfig.businessID = req.query.businessID;
+  sellerConfig.business_id = req.query.business_id;
   sellerConfig.seller_email_address = req.query.seller_email_address;
   sellerConfig.active_ad_account_id = req.query.active_ad_account_id;
   sellerConfig.seller_external_website_url = decodeURIComponent(req.query.seller_external_website_url);
@@ -606,8 +621,8 @@ router.get("/updatesellerbizconfig", async (req, res, next) => {
     let result =
       await updateSellerBusinessConfig(
         sellerConfig,
-        req.query.userID,
-        req.query.accessToken,
+        req.query.user_id,
+        req.query.access_token,
       );
     res.send(JSON.stringify(result)).end();
   } catch (error) {
@@ -697,8 +712,8 @@ router.get("/campaignreporting", async (req, res, next) => {
     let result =
       await getCampaignReporting(
         campaignInfo,
-        req.query.userID,
-        req.query.accessToken,
+        req.query.user_id,
+        req.query.access_token,
       );
     res.send(JSON.stringify(result)).end();
   } catch (error) {
@@ -758,8 +773,8 @@ router.get("/createinvoicegroup", async (req, res, next) => {
     let result =
       await createInvoiceGroup(
         invoiceGroup,
-        req.query.userID,
-        req.query.accessToken,
+        req.query.user_id,
+        req.query.access_token,
       );
     res.send(JSON.stringify(result)).end();
   } catch (error) {
@@ -812,9 +827,9 @@ router.get("/checkinvoicegroup", async (req, res, next) => {
   try {
     let result =
       await checkInvoiceGroup(
-        req.query.adsAccountID,
-        req.query.userID,
-        req.query.accessToken,
+        req.query.ad_account_id,
+        req.query.user_id,
+        req.query.access_token,
       );
     res.send(JSON.stringify(result)).end();
   } catch (error) {
@@ -878,8 +893,140 @@ router.get("/handleinvoiceadsaccount", async (req, res, next) => {
     let result =
       await handleInvoiceGroupAdsAccount(
         invoiceGroup,
-        req.query.userID,
-        req.query.accessToken,
+        req.query.user_id,
+        req.query.access_token,
+      );
+    res.send(JSON.stringify(result)).end();
+  } catch (error) {
+    res
+      .status(500)
+      .send(error.response.data)
+      .end();
+  }
+});
+
+/**
+ * 13. Update Seller Business Credit Limit
+ */
+const composeSellerCreditLimitRequest = function (dataType, sellerConfig) {
+  let request = {};
+  request.url = `${dataType.GRAPH_API}/${sellerConfig.alloc_config_id}`;
+  request.params = {};
+  request.params.access_token = dataType.APP_ACCESS_TOKEN;
+  request.params.amount = sellerConfig.credit_limit;
+  return request;
+}
+
+const updateSellerCreditLimitMock = function (sellerConfig) {
+  let result = {};
+  result.request = composeSellerCreditLimitRequest(mock, sellerConfig);
+  result.response = {
+    "success":true
+  };
+  return result;
+}
+
+const updateSellerCreditLimitAPI = async function (sellerConfig) {
+  let result = {};
+  result.request = composeSellerCreditLimitRequest(config, sellerConfig);
+  result.response = (await axios.post(
+    result.request.url,
+    result.request.params)
+  ).data;
+  return result;
+}
+
+const updateSellerCreditLimit = async function(sellerConfig, userID, accessToken) {
+  let result = updateSellerCreditLimitMock(sellerConfig);
+  if (await hasAdminRole(userID, accessToken)) {
+    result = await updateSellerCreditLimitAPI(sellerConfig);
+  }
+  return result;
+}
+
+router.get("/updatesellercreditlimit", async (req, res, next) => {
+  let sellerConfig = {};
+  sellerConfig.alloc_config_id = req.query.alloc_config_id;
+  sellerConfig.credit_limit = req.query.credit_limit;
+
+  try {
+    let result =
+      await updateSellerCreditLimit(
+        sellerConfig,
+        req.query.user_id,
+        req.query.access_token,
+      );
+    res.send(JSON.stringify(result)).end();
+  } catch (error) {
+    res
+      .status(500)
+      .send(error.response.data)
+      .end();
+  }
+});
+
+/**
+ * 14. Seller Campaign Info
+ */
+const composeCampaignInfoRequest = function (dataType, campaign) {
+  let request = `${dataType.GRAPH_API}/${campaign.campaign_id}/` +
+                `?fields=status,start_time,stop_time,lifetime_budget,budget_remaining,insights` +
+                `&access_token=${campaign.access_token}`;
+  return request;
+}
+
+const getCampaignInfoMock = function (campaign) {
+  let result = {};
+  result.request = composeCampaignInfoRequest(mock, campaign);
+  result.response = {
+    "status": "ACTIVE",
+    "start_time": "2021-01-06T09:31:07-0800",
+    "stop_time": "2021-01-23T04:53:36-0800",
+    "lifetime_budget": "25600",
+    "budget_remaining": "1",
+    "insights": {
+      "data": [
+        {
+          "account_id": "1332070203795426",
+          "campaign_id": "23846479736210102",
+          "date_start": "2020-12-29",
+          "date_stop": "2021-01-27",
+          "impressions": "71310",
+          "spend": "255.99"
+        }
+      ]
+    },
+    "id": "1234567890"
+  };
+  return result;
+}
+
+const getCampaignInfoAPI = async function(campaign) {
+  let result = {};
+  result.request = composeCampaignInfoRequest(config, campaign);
+  result.response = (await axios.get(result.request)).data;
+  return result;
+}
+
+const getCampaignInfo = async function(campaignInfo, userID, accessToken) {
+  let result = getCampaignInfoMock(campaignInfo);
+  if (await hasAdminRole(userID, accessToken)) {
+    result = await getCampaignInfoAPI(campaignInfo);
+  }
+  return result;
+}
+
+router.get("/campaigninfo", async (req, res, next) => {
+  let campaignInfo = {};
+  campaignInfo.access_token = req.query.seller_access_token;
+  campaignInfo.campaign_id = req.query.campaign_id;
+
+  try {
+    let result =
+      await getCampaignInfo(
+        campaignInfo,
+        req.query.user_id,
+        req.query.access_token,
       );
     res.send(JSON.stringify(result)).end();
   } catch (error) {
