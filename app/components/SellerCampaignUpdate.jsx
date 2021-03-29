@@ -79,6 +79,15 @@ const SellerCampaignUpdate = function() {
         </Form.Row>
         <Form.Row>
           <Form.Group as={Col}>
+            <Form.Label>
+              <a target="_blank" href="https://developers.facebook.com/docs/marketing-api/reference/ad-campaign-group#Updating">
+                More on Campagin API
+              </a>
+            </Form.Label>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
             <Button
               variant="primary"
               onClick={() => {

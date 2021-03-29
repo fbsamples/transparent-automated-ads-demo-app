@@ -107,14 +107,19 @@ const SellerOnboarding = function() {
 
         <Form.Row>
           <Form.Group as={Col}>
-            <Form.Label>Credit Limit</Form.Label>
+            <Form.Label>Credit Limit (USD)</Form.Label>
             <Form.Control
               value={creditLimit}
               onChange={e => setCreditLimit(e.target.value)}
             />
           </Form.Group>
           <Form.Group as={Col}>
-            <Form.Label>Currency</Form.Label>
+            <Form.Label>
+              Ad Account Currency&nbsp;
+              <a target="_blank" href="https://www.facebook.com/business/help/2780175265550591">
+              (Accepted Currencies List)
+              </a>
+            </Form.Label>
             <Form.Control
               value={currency}
               onChange={e => setCurrency(e.target.value)}
@@ -131,16 +136,15 @@ const SellerOnboarding = function() {
 
         <Form.Row>
           <Form.Group as={Col}>
-            <Form.Label>Timezone ID</Form.Label>
+            <Form.Label>Timezone ID&nbsp;
+            <a target="_blank" href="https://developers.facebook.com/docs/marketing-api/reference/ad-account/timezone-ids/">
+                (List of all the timezone IDs)
+              </a>
+            </Form.Label>
             <Form.Control
               value={timezoneID}
               onChange={e => setTimezoneID(e.target.value)}
             />
-            <Form.Label>
-              <a target="_blank" href="https://developers.facebook.com/docs/marketing-api/reference/ad-account/timezone-ids/">
-                List of all the timezone IDs
-              </a>
-            </Form.Label>
           </Form.Group>
         </Form.Row>
 

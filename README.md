@@ -1,6 +1,7 @@
 # Transparent Automated Ads Demo App
 
 This app is a demo app to help you test, debug and get started with Transparent Automated Ads API. It uses Node/Express for the backend and API, and React with hooks, routing and styled component support on the frontend.
+Try out the [live demo app](https://fbsamples-transparent-automated-ads-demo-app.glitch.me/).
 
 ## Supported API List
 - Seller Eligibility Check

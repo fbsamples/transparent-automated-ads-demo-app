@@ -638,8 +638,9 @@ router.get("/updatesellerbizconfig", async (req, res, next) => {
  */
 const composeCampaignReportingRequest = function (dataType, campaign) {
   let request = `${dataType.GRAPH_API}/${campaign.campaign_group_id}/insights` +
-                `?fields=catalog_segment_actions,catalog_segment_value,catalog_segment_value_omni_purchase_roas,spend,clicks,impressions` +
+                `?fields=catalog_segment_actions,catalog_segment_value,catalog_segment_value_omni_purchase_roas,spend,clicks,impressions,converted_product_value,converted_product_quantity` +
                 `&action_attribution_windows=["1d_view","28d_click"]` +
+                `&action_breakdowns=action_converted_product_id` +
                 `&access_token=${campaign.access_token}`;
   return request;
 }
@@ -682,6 +683,34 @@ const getCampaignReportingMock = function (campaign) {
     "spend": "208.86",
     "impressions": "57155",
     "clicks": "3640",
+    "converted_product_value": [
+      {
+        "action_converted_product_id": "3979883842023347",
+        "28d_click": "87.36"
+      },
+      {
+        "action_converted_product_id": "2046277955477342",
+        "28d_click": "56.22"
+      },
+      {
+        "action_converted_product_id": "3522211831172370",
+        "28d_click": "40.94"
+      },
+    ],
+    "converted_product_quantity": [
+      {
+        "action_converted_product_id": "3979883842023347",
+        "28d_click": "12"
+      },
+      {
+        "action_converted_product_id": "2046277955477342",
+        "28d_click": "12"
+      },
+      {
+        "action_converted_product_id": "3522211831172370",
+        "28d_click": "8"
+      },
+    ],
     "date_start": "2020-12-21",
     "date_stop": "2021-01-19"
   };

@@ -68,6 +68,13 @@ const SellerReporting = function() {
               </a>
             </Form.Label>
           </Form.Group>
+          <Form.Group as={Col}>
+            <Form.Label>
+              <a href="https://developers.facebook.com/docs/marketing-api/reference/product-item/" target="_blank">
+                Product Item Detail
+              </a>
+            </Form.Label>
+          </Form.Group>
         </Form.Row>
         <Form.Row>
           <Form.Group as={Col}>
