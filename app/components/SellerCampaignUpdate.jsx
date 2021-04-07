@@ -17,11 +17,13 @@ const SellerCampaignUpdate = function() {
   const [accessToken, setAccessToken] = useState('SellerBussinessAccessToken');
   const [endTime, setEndTime] = useState('1610766606');
   const [budget, setBudget] = useState('33300');
+  const [campaignStatus, setCampaignStatus] = useState('ACTIVE');
 
   const onUpdateAds = useCallback(async () => {
     let request = `/api/updatecampaign?` +
                 `lifetime_budget=${budget}&` +
                 `end_time=${endTime}&` +
+                `campaign_group_status=${campaignStatus}&` +
                 `campaign_group_id=${campaignID}&` +
                 `ads_account=${adsAccount}&` +
                 `seller_access_token=${accessToken}&` +
@@ -30,7 +32,7 @@ const SellerCampaignUpdate = function() {
     let campaign = await fetch(request);
     campaign = await campaign.json();
     setCampaign(campaign);
-  }, [campaignID, endTime, budget,adsAccount, accessToken]);
+  }, [campaignID, endTime, budget, campaignStatus, adsAccount, accessToken]);
 
   return (
     <div>
@@ -74,6 +76,13 @@ const SellerCampaignUpdate = function() {
             <Form.Control
               value={endTime}
               onChange={e => setEndTime(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group as={Col}>
+            <Form.Label>Campaign Status (ACTIVE or PAUSED)</Form.Label>
+            <Form.Control
+              value={campaignStatus}
+              onChange={e => setCampaignStatus(e.target.value)}
             />
           </Form.Group>
         </Form.Row>

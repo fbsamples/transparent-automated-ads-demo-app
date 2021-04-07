@@ -503,6 +503,7 @@ const composeCampaignUpdateRequest = function (dataType, campaign) {
     campaign_group_id: `${campaign.campaign_group_id}`,
     lifetime_budget: `${campaign.lifetime_budget}`,
     end_time: `${campaign.end_time}`,
+    campaign_group_status: `${campaign.campaign_group_status}`,
     access_token: `${campaign.access_token}`
   };
   return request;
@@ -543,6 +544,7 @@ router.get("/updatecampaign", async (req, res, next) => {
   campaignInfo.lifetime_budget = req.query.lifetime_budget;
   campaignInfo.end_time = req.query.end_time;
   campaignInfo.campaign_group_id = req.query.campaign_group_id;
+  campaignInfo.campaign_group_status = req.query.campaign_group_status;
 
   try {
     let result =

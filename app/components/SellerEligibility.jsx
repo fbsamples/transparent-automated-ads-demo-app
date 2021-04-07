@@ -19,13 +19,12 @@ const SellerEligibility = function() {
   useEffect(() => {
     async function fetchMarketplace() {
       let marketplace =
-        await fetch(`/api/getmarketplace?userID=${auth.userID}&accessToken=${auth.accessToken}`);
+        await fetch(`/api/getmarketplace?user_id=${auth.userID}&access_token=${auth.accessToken}`);
       marketplace = await marketplace.json();
       setMarketplace(marketplace);
       let sellerCriteria =
         `Average Basket Size: ${marketplace.sellerCriteria.basketSize};
-        Number of purchases in 28 days: ${marketplace.sellerCriteria.transactions};
-        Number of unique users in 7 days: ${marketplace.sellerCriteria.users}`;
+        Number of purchases in 28 days: ${marketplace.sellerCriteria.transactions}`;
       setSellerCriteria(sellerCriteria);
     }
     fetchMarketplace();

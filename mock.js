@@ -6,11 +6,11 @@ const NAME = 'The Marketplace';
 const BUSSINESS_ID = 'BIZ-1234567890';
 const CREDIT_LINE_ID = 'CRE-364655460317958';
 const CATALOG_ID = 'CAT-487699041383103';
-const GRAPH_API = 'https://graph.themock.com/v9.0';
+const GRAPH_API = 'https://graph.themock.com/v10.0';
 const APP_ACCESS_TOKEN = 'admin_system_user_access_token';
 const APP_ID = 'your_app_id';
 
-const SELLER_CRITERIA = { users: 1000, transactions: 100, basketSize: 2 };
+const SELLER_CRITERIA = {transactions: 250, basketSize: 2 };
 const ELIGIBLE_SELLER_CODE = "seller_allow_listed";
 const ELIGIBLE_SELLER_DESC = "Seller is in allow list.";
 const INELIGIBLE_SELLER_CODE = "seller_fails_eligibility_check";
