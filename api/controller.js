@@ -432,9 +432,14 @@ const composeCampaignLaunchingRequest = function (dataType, campaign) {
     end_time: `${campaign.end_time}`,
     override_targeting_countries: `${campaign.override_targeting_countries}`,
     override_creative_text: `${campaign.override_creative_text}`,
-    use_marketplace_template: `${campaign.use_marketplace_template}`,
     access_token: `${campaign.access_token}`
   };
+  if (campaign.use_marketplace_template !== undefined) {
+    request.params.use_marketplace_template = campaign.use_marketplace_template;
+  }
+  else {
+    request.params.use_seller_template = campaign.use_seller_template;
+  }
   return request;
 }
 
@@ -476,6 +481,7 @@ router.get("/launchcampaign", async (req, res, next) => {
   campaignInfo.override_targeting_countries = req.query.override_targeting_countries;
   campaignInfo.override_creative_text = req.query.override_creative_text;
   campaignInfo.use_marketplace_template = req.query.use_marketplace_template;
+  campaignInfo.use_seller_template = req.query.use_seller_template;
 
   try {
     let result =
@@ -573,6 +579,20 @@ const composeSellerBusinessConfigRequest = function (dataType, sellerConfig) {
   request.params.seller_external_website_url = sellerConfig.seller_external_website_url;
   request.params.seller_email_address = sellerConfig.seller_email_address;
   request.params.active_ad_account_id = sellerConfig.active_ad_account_id;
+  request.params.template = [
+    {
+      campaign_template_id: `${sellerConfig.retargeting_adset_template_id}`,
+      adgroup_template_ids: [`${sellerConfig.retargeting_ad_template_id}`],
+      budget_percentage: `${sellerConfig.retargeting_budget}`,
+      targeting_type: "retargeting"
+    },
+    {
+      campaign_template_id: `${sellerConfig.prospecting_adset_template_id}`,
+      adgroup_template_ids: [`${sellerConfig.prospecting_ad_template_id}`],
+      budget_percentage: `${sellerConfig.prospecting_budget}`,
+      targeting_type: "prospecting",
+    }
+  ];
   return request;
 }
 
@@ -618,6 +638,12 @@ router.get("/updatesellerbizconfig", async (req, res, next) => {
   sellerConfig.seller_email_address = req.query.seller_email_address;
   sellerConfig.active_ad_account_id = req.query.active_ad_account_id;
   sellerConfig.seller_external_website_url = decodeURIComponent(req.query.seller_external_website_url);
+  sellerConfig.retargeting_adset_template_id = req.query.retargeting_adset_template_id;
+  sellerConfig.retargeting_ad_template_id = req.query.retargeting_ad_template_id;
+  sellerConfig.retargeting_budget = req.query.retargeting_budget;
+  sellerConfig.prospecting_adset_template_id = req.query.prospecting_adset_template_id;
+  sellerConfig.prospecting_ad_template_id = req.query.prospecting_ad_template_id;
+  sellerConfig.prospecting_budget = req.query.prospecting_budget;
 
   try {
     let result =

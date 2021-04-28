@@ -18,6 +18,12 @@ const SellerBusiness = function() {
   const [emailAddr, setEmailAddr] = useState('seller@marketplace.com');
   const [allocConfigID, setAllocConfigID] = useState('423224102259163');
   const [creditLimit, setCreditLimit] = useState('200');
+  const [retargetingAdsetID, setRetargetingAdsetID] = useState('160235235998069');
+  const [retargetingAdID, setRetargetingAdID] = useState('447963739637509');
+  const [retargetingBudget, setRetargetingBudget] = useState('0.5');
+  const [prospectingAdsetID, setProspectingAdsetID] = useState('278452090413983');
+  const [prospectingAdID, setProspecdtingAdID] = useState('458654975391261');
+  const [prospectingBudget, setProspectingBudget] = useState('0.5');
 
   const onGetSellerBusinessInfo = useCallback(async () => {
     let request = `/api/getsellerbizinfo?` +
@@ -41,6 +47,12 @@ const SellerBusiness = function() {
       `active_ad_account_id=${adsAccountID}&` +
       `seller_email_address=${emailAddr}&` +
       `seller_external_website_url=${encodeURIComponent(websiteURL)}&` +
+      `retargeting_adset_template_id=${retargetingAdsetID}&` +
+      `retargeting_ad_template_id=${retargetingAdID}&` +
+      `retargeting_budget=${retargetingBudget}&` +
+      `prospecting_adset_template_id=${prospectingAdsetID}&` +
+      `prospecting_ad_template_id=${prospectingAdID}&` +
+      `prospecting_budget=${prospectingBudget}&` +
       `user_id=${auth.userID}&` +
       `access_token=${auth.accessToken}`;
     handleRequest(request);
@@ -74,6 +86,7 @@ const SellerBusiness = function() {
                 onChange={e => setBusinessID(e.target.value)}
               />
           </Form.Group>
+          <Form.Group as={Col}></Form.Group>
         </Form.Row>
         <Form.Row>
           <Form.Group as={Col}>
@@ -96,6 +109,8 @@ const SellerBusiness = function() {
              Generate Seller Access Token
             </Button>
           </Form.Group>
+          <Form.Group as={Col}></Form.Group>
+          <Form.Group as={Col}></Form.Group>
         </Form.Row>
         <Form.Row>
           <Form.Group as={Col}>
@@ -118,6 +133,52 @@ const SellerBusiness = function() {
                 value={emailAddr}
                 onChange={e => setEmailAddr(e.target.value)}
               />
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
+            <Form.Label>Retargeting Adset Template ID</Form.Label>
+            <Form.Control
+              value={retargetingAdsetID}
+              onChange={e => setRetargetingAdsetID(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group as={Col}>
+            <Form.Label>Retargeting Ad Template ID</Form.Label>
+            <Form.Control
+              value={retargetingAdID}
+              onChange={e => setRetargetingAdID(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group as={Col}>
+            <Form.Label>Retargeting Budget (value from 0.0 to 1.0)</Form.Label>
+            <Form.Control
+              value={retargetingBudget}
+              onChange={e => setRetargetingBudget(e.target.value)}
+            />
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
+            <Form.Label>Prospecting Adset Template ID</Form.Label>
+            <Form.Control
+              value={prospectingAdsetID}
+              onChange={e => setProspectingAdsetID(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group as={Col}>
+            <Form.Label>Prospecting Ad Template ID</Form.Label>
+            <Form.Control
+              value={prospectingAdID}
+              onChange={e => setProspectingAdID(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group as={Col}>
+            <Form.Label>Prospecting Budget (value from 0.0 to 1.0)</Form.Label>
+            <Form.Control
+              value={prospectingBudget}
+              onChange={e => setProspectingBudget(e.target.value)}
+            />
           </Form.Group>
         </Form.Row>
         <Form.Row>
@@ -147,6 +208,8 @@ const SellerBusiness = function() {
                 onChange={e => setCreditLimit(e.target.value)}
               />
           </Form.Group>
+          <Form.Group as={Col}></Form.Group>
+          <Form.Group as={Col}></Form.Group>
         </Form.Row>
         <Form.Row>
           <Form.Group as={Col}>

@@ -29,24 +29,29 @@ const SellerCampaignUpdate = function() {
                 `seller_access_token=${accessToken}&` +
                 `user_id=${auth.userID}&` +
                 `access_token=${auth.accessToken}`;
+    handleRequest(request);
+  }, [campaignID, endTime, budget, campaignStatus, adsAccount, accessToken]);
+
+  const onGetCampaignInfo = useCallback(async () => {
+    let request = `/api/campaigninfo?` +
+                `campaign_id=${campaignID}&` +
+                `seller_access_token=${accessToken}&` +
+                `user_id=${auth.userID}&` +
+                `access_token=${auth.accessToken}`;
+    handleRequest(request);
+  }, [campaignID, accessToken]);
+
+  const handleRequest = async function(request) {
     let campaign = await fetch(request);
     campaign = await campaign.json();
     setCampaign(campaign);
-  }, [campaignID, endTime, budget, campaignStatus, adsAccount, accessToken]);
+  }
 
   return (
     <div>
       <h1>Seller Campaign Update</h1>
       <Form>
         <Form.Row>
-          <Form.Group as={Col}>
-            <Form.Label>Ads Account ID</Form.Label>
-            <Form.Control
-              value={adsAccount}
-              onChange={e => setAdsAccount(e.target.value)}
-            >
-            </Form.Control>
-          </Form.Group>
           <Form.Group as={Col}>
             <Form.Label>Campaign ID</Form.Label>
             <Form.Control
@@ -64,6 +69,26 @@ const SellerCampaignUpdate = function() {
           </Form.Group>
         </Form.Row>
         <Form.Row>
+        <Form.Group as={Col}>
+            <Button
+              variant="info"
+              onClick={() => {
+                onGetCampaignInfo();
+              }}
+            >
+              Campaign Info
+            </Button>
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
+              <Form.Label>Ad Account ID</Form.Label>
+              <Form.Control
+                value={adsAccount}
+                onChange={e => setAdsAccount(e.target.value)}
+              >
+              </Form.Control>
+          </Form.Group>
           <Form.Group as={Col}>
             <Form.Label>Lifetime Budget (in cents)</Form.Label>
             <Form.Control

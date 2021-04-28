@@ -19,16 +19,17 @@ const SellerCampaignLaunch = function() {
   const [budget, setBudget] = useState('30000');
   const [targetingCountries, setTargetingCountries] = useState('["US","CA"]');
   const [creativeText, setCreativeText] = useState('Buy Now at this store');
-  const [marketplaceTemplate, setMarketplaceTemplate] = useState(true);
+  const [template, setTemplate] = useState("marketplace");
 
   const onStartAds = useCallback(async () => {
+    let templateType = template === "marketplace" ? `use_marketplace_template=true` : `use_seller_template=true`;
     let request = `/api/launchcampaign?` +
                 `lifetime_budget=${budget}&` +
                 `start_time=${startTime}&` +
                 `end_time=${endTime}&` +
                 `override_targeting_countries=${targetingCountries}&` +
                 `override_creative_text=${creativeText}&` +
-                `use_marketplace_template=${marketplaceTemplate}&` +
+                `${templateType}&` +
                 `ads_account=${adsAccount}&` +
                 `seller_access_token=${accessToken}&` +
                 `user_id=${auth.userID}&` +
@@ -37,7 +38,7 @@ const SellerCampaignLaunch = function() {
     campaign = await campaign.json();
     setCampaign(campaign);
   }, [startTime, endTime, budget,adsAccount, accessToken,
-      targetingCountries, creativeText, marketplaceTemplate]);
+      targetingCountries, creativeText, template]);
 
   return (
     <div>
@@ -69,10 +70,20 @@ const SellerCampaignLaunch = function() {
             />
           </Form.Group>
           <Form.Group as={Col}>
-            <Form.Label>Use Marketplace Template</Form.Label>
-            <Form.Control
-              value={marketplaceTemplate}
-              onChange={e => setMarketplaceTemplate(e.target.value)}
+            <Form.Label>Template Type</Form.Label>
+            <Form.Check
+              type="radio"
+              label="Marketplace"
+              value="marketplace"
+              checked={template === 'marketplace'}
+              onChange={e => setTemplate(e.target.value)}
+            />
+            <Form.Check
+              type="radio"
+              label="Seller"
+              value="seller"
+              checked={template === 'seller'}
+              onChange={e => setTemplate(e.target.value)}
             />
           </Form.Group>
         </Form.Row>
