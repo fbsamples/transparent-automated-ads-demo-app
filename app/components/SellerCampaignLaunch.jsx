@@ -20,6 +20,7 @@ const SellerCampaignLaunch = function() {
   const [targetingCountries, setTargetingCountries] = useState('["US","CA"]');
   const [creativeText, setCreativeText] = useState('Buy Now at this store');
   const [template, setTemplate] = useState("marketplace");
+  const [conversionDomain, setConversionDomain] = useState("marketplace.com");
 
   const onStartAds = useCallback(async () => {
     let templateType = template === "marketplace" ? `use_marketplace_template=true` : `use_seller_template=true`;
@@ -30,6 +31,7 @@ const SellerCampaignLaunch = function() {
                 `override_targeting_countries=${targetingCountries}&` +
                 `override_creative_text=${creativeText}&` +
                 `${templateType}&` +
+                `conversion_domain=${conversionDomain}&` +
                 `ads_account=${adsAccount}&` +
                 `seller_access_token=${accessToken}&` +
                 `user_id=${auth.userID}&` +
@@ -38,7 +40,7 @@ const SellerCampaignLaunch = function() {
     campaign = await campaign.json();
     setCampaign(campaign);
   }, [startTime, endTime, budget,adsAccount, accessToken,
-      targetingCountries, creativeText, template]);
+      targetingCountries, creativeText, template, conversionDomain]);
 
   return (
     <div>
@@ -67,6 +69,13 @@ const SellerCampaignLaunch = function() {
             <Form.Control
               value={budget}
               onChange={e => setBudget(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group as={Col}>
+            <Form.Label>Conversion Domain</Form.Label>
+            <Form.Control
+              value={conversionDomain}
+              onChange={e => setConversionDomain(e.target.value)}
             />
           </Form.Group>
           <Form.Group as={Col}>

@@ -1,3 +1,5 @@
+# Copyright (c) Facebook, Inc. and its affiliates.
+
 #!/bin/bash
 GRAPH_API='https://graph.facebook.com/v10.0'
 

@@ -71,7 +71,7 @@ router.get("/getmarketplace", async (req, res, next) => {
 
 const composeSellerEligibilityRequest = function (dataType, sellerID) {
   let request = `${dataType.GRAPH_API}/${dataType.BUSSINESS_ID}/` +
-                `?fields=collaborative_ads_aams_seller_eligibility` +
+                `?fields=collaborative_ads_managed_partner_eligibility` +
                 `.catalog_id(${dataType.CATALOG_ID}).vendor_id(${sellerID})` +
                 `&access_token=${dataType.APP_ACCESS_TOKEN}`;
   return request;
@@ -103,8 +103,7 @@ const checkSellerEligibilityMock = function(sellerID) {
 const checkSellerEligibilityAPI = async function(sellerID) {
   let result = {};
   result.request = composeSellerEligibilityRequest(config, sellerID);
-  let response = (await axios.get(result.request)).data;
-  result.response = response.collaborative_ads_aams_seller_eligibility;
+  result.response = (await axios.get(result.request)).data;
   return result;
 }
 
@@ -139,7 +138,7 @@ router.get("/checkseller", async (req, res, next) => {
 
 const composeSellerBusinessRequest = function (dataType, seller) {
   let request = {};
-  request.url = `${dataType.GRAPH_API}/${dataType.BUSSINESS_ID}/aams_seller_businesses`;
+  request.url = `${dataType.GRAPH_API}/${dataType.BUSSINESS_ID}/managed_partner_businesses`;
   request.params = {
     access_token: `${dataType.APP_ACCESS_TOKEN}`,
     id: `${dataType.BUSSINESS_ID}`,
@@ -150,6 +149,9 @@ const composeSellerBusinessRequest = function (dataType, seller) {
     seller_external_website_url: `${seller.seller_external_website_url}`,
     page_name: `${seller.page_name}`,
     page_profile_image_url: `${seller.page_profile_image_url}`,
+    partner_facebook_page_url: `${seller.partner_facebook_page_url}`,
+    partner_registration_countries: `${seller.partner_registration_countries}`,
+    sales_rep_email: `${seller.sales_rep_email}`,
     credit_limit: `${seller.credit_limit}`,
     ad_account_currency: `${seller.ad_account_currency}`,
     timezone_id: `${seller.timezone_id}`,
@@ -196,6 +198,9 @@ router.get("/selleronboarding", async (req, res, next) => {
   sellerInfo.ad_account_currency = req.query.ad_account_currency;
   sellerInfo.credit_limit = req.query.credit_limit;
   sellerInfo.seller_targeting_countries = req.query.seller_targeting_countries;
+  sellerInfo.partner_facebook_page_url = req.query.partner_facebook_page_url;
+  sellerInfo.partner_registration_countries = req.query.partner_registration_countries;
+  sellerInfo.sales_rep_email = req.query.sales_rep_email;
 
   try {
     let result =
@@ -229,7 +234,7 @@ const getSellerBusinessMock = function (sellerID) {
   result.request = composeSellerBusinessLookupRequest(mock, sellerID);
   result.response = {
       "id": "191238152396383",
-      "name": "TAA Seller"
+      "name": "MPA Seller"
   };
   return result;
 }
@@ -271,7 +276,7 @@ router.get("/getsellerbizid", async (req, res, next) => {
  */
 const composeSellerBusinessInfoRequest = function (dataType, businessID) {
   let request = `${dataType.GRAPH_API}/${businessID}` +
-                `?fields=collaborative_ads_aams_seller_business_info` +
+                `?fields=collaborative_ads_managed_partner_business_info` +
                 `&access_token=${dataType.APP_ACCESS_TOKEN}`;
   return request;
 }
@@ -280,52 +285,41 @@ const getSellerBusinessInfoMock = function (businessID) {
   let result = {};
   result.request = composeSellerBusinessInfoRequest(mock, businessID);
   result.response = {
-      "seller_business_aams_status": "ready",
-      "seller_business_info": {
-        "seller_email_address": "seller@marketplace.com",
-        "seller_external_website_url": "https://marketplace.com/stuffs"
-      },
-      "ad_account": {
-        "id": "act_319769242719821",
-        "currency": "USD"
-      },
-      "page": {
-        "id": "101356215294589"
-      },
-      "extended_credit": {
-        "receiving_credit_allocation_config": {
-          "id": "423224102259163"
-        },
-        "max_balance": {
-          "amount": "250.00",
-          "amount_in_hundredths": "25000",
-          "currency": "USD",
-          "offsetted_amount": "25000"
-        },
-        "id": "3710622242385039"
-      },
-      "active_seller_campaign": {
-        "status": "ACTIVE",
-        "id": "23846663933220507"
-      },
-      "template": [
-        {
-          "budget_percentage": 0.5,
-          "campaign_template_id": "1890545134419293",
-          "adgroup_template_ids": [
-            "750988515486255"
-          ],
-          "targeting_type": "retargeting"
-        },
-        {
-          "budget_percentage": 0.5,
-          "campaign_template_id": "271586340938767",
-          "adgroup_template_ids": [
-            "750988515486255"
-          ],
-          "targeting_type": "prospecting"
+    "collaborative_ads_managed_partner_business_info":{
+      "seller_business_status":"ready",
+      "seller_business_info":{
+        "seller_external_website_url":"https://marketplace.com\/tester-smc",
+        "partner_facebook_page":{
+          "id":"104485202150505"
         }
+      },
+      "ad_account":{
+        "id":"act_792648744208080",
+        "currency":"USD"
+      },
+      "page":{
+        "id":"109074171414387"
+      },
+      "catalog_segment":{
+        "id":"1328653133260606"
+      },
+      "extended_credit":{
+        "receiving_credit_allocation_config":{
+          "id":"25652453070000"
+        },
+        "max_balance":{
+          "amount":"1,000.00",
+          "amount_in_hundredths":"100000",
+          "currency":"USD",
+          "offsetted_amount":"100000"
+        },
+        "id":"3870829694225"
+      },
+      "template":[
+
       ]
+    },
+    "id":"921306705383191"
   };
   return result;
 }
@@ -333,7 +327,7 @@ const getSellerBusinessInfoMock = function (businessID) {
 const getSellerBusinessInfoAPI = async function (businessID) {
   let result = {};
   result.request = composeSellerBusinessInfoRequest(config, businessID);
-  result.response = (await axios.get(result.request)).data.collaborative_ads_aams_seller_business_info;
+  result.response = (await axios.get(result.request)).data;
   return result;
 }
 
@@ -425,13 +419,14 @@ router.get("/genaccesstoken", async (req, res, next) => {
  */
 const composeCampaignLaunchingRequest = function (dataType, campaign) {
   let request = {};
-  request.url = `${dataType.GRAPH_API}/act_${campaign.ads_account}/aams_ads`;
+  request.url = `${dataType.GRAPH_API}/act_${campaign.ads_account}/managed_partner_ads`;
   request.params = {
     lifetime_budget: `${campaign.lifetime_budget}`,
     start_time: `${campaign.start_time}`,
     end_time: `${campaign.end_time}`,
     override_targeting_countries: `${campaign.override_targeting_countries}`,
     override_creative_text: `${campaign.override_creative_text}`,
+    conversion_domain: `${campaign.conversion_domain}`,
     access_token: `${campaign.access_token}`
   };
   if (campaign.use_marketplace_template !== undefined) {
@@ -482,6 +477,7 @@ router.get("/launchcampaign", async (req, res, next) => {
   campaignInfo.override_creative_text = req.query.override_creative_text;
   campaignInfo.use_marketplace_template = req.query.use_marketplace_template;
   campaignInfo.use_seller_template = req.query.use_seller_template;
+  campaignInfo.conversion_domain = req.query.conversion_domain;
 
   try {
     let result =
@@ -504,7 +500,7 @@ router.get("/launchcampaign", async (req, res, next) => {
  */
 const composeCampaignUpdateRequest = function (dataType, campaign) {
   let request = {};
-  request.url = `${dataType.GRAPH_API}/act_${campaign.ads_account}/aams_ads`;
+  request.url = `${dataType.GRAPH_API}/act_${campaign.ads_account}/managed_partner_ads`;
   request.params = {
     campaign_group_id: `${campaign.campaign_group_id}`,
     lifetime_budget: `${campaign.lifetime_budget}`,
@@ -573,7 +569,7 @@ router.get("/updatecampaign", async (req, res, next) => {
  */
 const composeSellerBusinessConfigRequest = function (dataType, sellerConfig) {
   let request = {};
-  request.url = `${dataType.GRAPH_API}/${sellerConfig.business_id}/aams_seller_business_setup`;
+  request.url = `${dataType.GRAPH_API}/${sellerConfig.business_id}/managed_partner_business_setup`;
   request.params = {};
   request.params.access_token = dataType.APP_ACCESS_TOKEN;
   request.params.seller_external_website_url = sellerConfig.seller_external_website_url;
@@ -858,7 +854,7 @@ const checkInvoiceGroupMock = function (invoiceGroup) {
   result.response = {
     "extended_credit_invoice_group": {
     "id": "2742746285973044",
-    "name": "TAA Invoice Group"
+    "name": "MPA Invoice Group"
   },
     "id": "act_768156353980606"
   };

@@ -22,7 +22,7 @@ const SellerBusiness = function() {
   const [retargetingAdID, setRetargetingAdID] = useState('447963739637509');
   const [retargetingBudget, setRetargetingBudget] = useState('0.5');
   const [prospectingAdsetID, setProspectingAdsetID] = useState('278452090413983');
-  const [prospectingAdID, setProspecdtingAdID] = useState('458654975391261');
+  const [prospectingAdID, setProspectingAdID] = useState('458654975391261');
   const [prospectingBudget, setProspectingBudget] = useState('0.5');
 
   const onGetSellerBusinessInfo = useCallback(async () => {

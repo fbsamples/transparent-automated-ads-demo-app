@@ -11,17 +11,20 @@ import { useAuth } from "../context/auth";
 
 const SellerOnboarding = function() {
   const { auth } = useAuth();
-  const [name, setName] = useState('TAA Seller');
+  const [name, setName] = useState('MPA Seller');
   const [vertical, setVertical] = useState('OTHER');
   const [externalID, setExternalID] = useState('cpas_demo_vendor_500');
   const [timezoneID, setTimezoneID] = useState('1');
   const [externalWebsiteURL, setExternalWebsiteURL] = useState('https://www.ebay.com/str/PremiumBattery2015');
-  const [pageName, setPageName] = useState('TAA Seller Page Name');
+  const [pageName, setPageName] = useState('MPA Seller Page Name');
   const [profileURL, setProfileURL] = useState('https://static.remove.bg/remove-bg-web/6a52a5138a9abf57fc19c01d996367588cfdee72/assets/start_remove-79a4598a05a77ca999df1dcb434160994b6fde2c3e9101984fb1be0f16d0a74e.png');
+  const [partnerFbPageURL, setpartnerFbPageURL] = useState('https://www.facebook.com/Tester-SMC');
+  const [registrationCountries, setRegistrationCountries] = useState('["US"]');
   const [currency, setCurrency] = useState('USD');
   const [creditLimit, setCreditLimit] = useState('200');
   const [targetingCountries, setTargetingCountries] = useState('["US"]');
   const [sellerBusiness, setSellerBusiness] = useState();
+  const [sellerEmail, setSellerEmail] = useState("seller@marketplace.com");
 
   const onStartOnbboarding = useCallback(async () => {
     let request = `/api/selleronboarding?` +
@@ -31,6 +34,9 @@ const SellerOnboarding = function() {
       `seller_external_website_url=${encodeURIComponent(externalWebsiteURL)}&` +
       `page_profile_image_url=${encodeURIComponent(profileURL)}&` +
       `page_name=${pageName}&` +
+      `partner_facebook_page_url=${partnerFbPageURL}&` +
+      `partner_registration_countries=${registrationCountries}&` +
+      `sales_rep_email=${sellerEmail}&` +
       `credit_limit=${creditLimit}&` +
       `ad_account_currency=${currency}&` +
       `seller_targeting_countries=${targetingCountries}&` +
@@ -40,8 +46,8 @@ const SellerOnboarding = function() {
     let sellerBusiness = await fetch(request);
     sellerBusiness = await sellerBusiness.json();
     setSellerBusiness(sellerBusiness);
-  }, [name, vertical, externalID, externalWebsiteURL, pageName,
-      profileURL, currency, creditLimit, targetingCountries]);
+  }, [name, vertical, externalID, externalWebsiteURL, pageName, profileURL, currency,
+    creditLimit, targetingCountries, partnerFbPageURL, registrationCountries, sellerEmail]);
 
   const onLookupSeller = useCallback(async () => {
     let request = `/api/getsellerbizid?` +
@@ -90,17 +96,41 @@ const SellerOnboarding = function() {
             />
           </Form.Group>
           <Form.Group as={Col}>
-            <Form.Label>Profile URL</Form.Label>
+            <Form.Label>Profile Image URL</Form.Label>
             <Form.Control
               value={profileURL}
               onChange={e => setProfileURL(e.target.value)}
             />
           </Form.Group>
           <Form.Group as={Col}>
-            <Form.Label>Vertical</Form.Label>
+            <Form.Label>Seller Email</Form.Label>
             <Form.Control
-              value={vertical}
-              onChange={e => setVertical(e.target.value)}
+              value={sellerEmail}
+              onChange={e => setSellerEmail(e.target.value)}
+            />
+          </Form.Group>
+        </Form.Row>
+
+        <Form.Row>
+          <Form.Group as={Col}>
+            <Form.Label>Partner FB Pagep URL</Form.Label>
+            <Form.Control
+              value={partnerFbPageURL}
+              onChange={e => setpartnerFbPageURL(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group as={Col}>
+            <Form.Label>Partner Registration Countries</Form.Label>
+            <Form.Control
+              value={registrationCountries}
+              onChange={e => setRegistrationCountries(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group as={Col}>
+            <Form.Label>Targeting Countries</Form.Label>
+            <Form.Control
+              value={targetingCountries}
+              onChange={e => setTargetingCountries(e.target.value)}
             />
           </Form.Group>
         </Form.Row>
@@ -126,16 +156,6 @@ const SellerOnboarding = function() {
             />
           </Form.Group>
           <Form.Group as={Col}>
-            <Form.Label>Targeting Countries</Form.Label>
-            <Form.Control
-              value={targetingCountries}
-              onChange={e => setTargetingCountries(e.target.value)}
-            />
-          </Form.Group>
-        </Form.Row>
-
-        <Form.Row>
-          <Form.Group as={Col}>
             <Form.Label>Timezone ID&nbsp;
             <a target="_blank" href="https://developers.facebook.com/docs/marketing-api/reference/ad-account/timezone-ids/">
                 (List of all the timezone IDs)
@@ -145,6 +165,19 @@ const SellerOnboarding = function() {
               value={timezoneID}
               onChange={e => setTimezoneID(e.target.value)}
             />
+          </Form.Group>
+        </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col}>
+              <Form.Label>Vertical</Form.Label>
+              <Form.Control
+                value={vertical}
+                onChange={e => setVertical(e.target.value)}
+              />
+            </Form.Group>
+          <Form.Group as={Col}>
+          </Form.Group>
+          <Form.Group as={Col}>
           </Form.Group>
         </Form.Row>
 
