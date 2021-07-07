@@ -35,7 +35,7 @@ const Dashboard = function () {
   return (
     <Container>
       <Jumbotron>
-        <h1 className="header">Welcome To AAMS Onboarding</h1>
+        <h1 className="header">Welcome To Managed Partner Ads Onboarding</h1>
         <Form>
           <Form.Group as={Row}>
             <Form.Label column sm={2}>

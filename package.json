@@ -1,7 +1,7 @@
 {
-  "name": "taa-demo-app",
+  "name": "mpa-demo-app",
   "version": "2.0.0",
-  "description": "Transparent Automated Ads Demo App",
+  "description": "Managed Partner Ads Demo App",
   "main": "server.js",
   "scripts": {
     "build": "webpack",
