@@ -18,4 +18,4 @@ curl -X POST \
  -F "use_marketplace_template=true" \
  -F "conversion_domain=sendo.vn" \
  -F "access_token="$SELLER_TOKEN \
-$GRAPH_API/act_$AD_ACCOUNT_ID/aams_ads > seller-campaign
+$GRAPH_API/act_$AD_ACCOUNT_ID/managed_partner_ads > seller-campaign

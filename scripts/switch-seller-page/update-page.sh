@@ -9,7 +9,7 @@ SELLER_ID=$2
 result=`curl -X POST \
  -F 'active_page_id='$SELLER_PAGE \
  -F 'access_token='$ACCESS_TOKEN \
-$GRAPH_API/$SELLER_ID/aams_seller_business_setup`
+$GRAPH_API/$SELLER_ID/managed_partner_business_setup`
 
 IFS='"' read -a strarr <<< "$result"
 
